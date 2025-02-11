@@ -34,9 +34,7 @@ export HF_TOKEN="your_user_access_token"
 salloc -N 1 -n 4 -p mit_normal_gpu --gres=gpu:l40s:1
 ```
 
-!!! Note
-    You will need a GPU with at least 40GB of memory. If you don't have a GPU,
-    you can run this on a CPU, but it will be much slower.
+*Note: You will need a GPU with at least 40GB of memory. If you don't have a GPU, you can run this on a CPU, but it will be much slower.*
 
 **Create a Python virtual environment:**
 
@@ -85,6 +83,6 @@ python rag.py
 To run with customized settings:
 
 ```bash
-python rag.py 0.2 /path/to/vector/store meta-llama/Llama-3.1-70B-Instruct
+python rag.py <temperature> </path/to/vector/store> <LLM name>
 ```
 
