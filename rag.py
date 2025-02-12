@@ -112,6 +112,13 @@ def get_qa_chain(llm, retriever, prompt):
 
 
 def run_conversation(qa_chain, run_batch): # Remove run_batch
+    """
+    Answer questions in a loop
+
+    Inputs:
+        qa_chain: RetrievalQA
+    """
+    
     if run_batch: # Remove this section
         questions = [
             "What is Engaging?",
@@ -171,7 +178,10 @@ def main():
     qa_chain = get_qa_chain(llm, retriever, prompt)
 
     # Run interactive chat session:
-    run_batch = True if sys.argv[4] == "True" else False # Remove this section
+    try: # Remove this try/except section
+        run_batch = True if sys.argv[4] == "True" else False
+    except IndexError:
+        run_batch = False
     run_conversation(qa_chain, run_batch) # Remove run_batch
 
     return
