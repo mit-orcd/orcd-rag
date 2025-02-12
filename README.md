@@ -86,3 +86,23 @@ To run with customized settings:
 python rag.py <temperature> </path/to/vector/store> <LLM name>
 ```
 
+The first time you run this, the model will be downloaded from HuggingFace and
+cached, so it may take a while to get running. Subsequent times will be much
+quicker because the model has already been downloaded.
+
+Llama 3.1 8B takes about 15GB of space. The default cache location for
+HuggingFace models is `~/.cache/huggingface`. If you do not have enough space
+in your home directory to store the model, you can set the `HF_HOME` environment
+variable to point to another diectory. For example, to save models to your
+`pool` directory (depending on your storage setup), that would look something
+like this:
+
+```bash
+export HF_HOME=/home/$USER/orcd/r8/pool
+```
+
+or:
+
+```bash
+export HF_HOME=/pool001/$USER
+```

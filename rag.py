@@ -79,8 +79,9 @@ def get_prompt_template():
     <|start_header_id|>user<|end_header_id|>
     You are an assistant for answering questions using provided context. You are
     given the extracted parts of a long document and a question. Provide a
-    conversational answer. If you don't know the answer, just say "I do not
-    know." Don't make up an answer.
+    conversational answer. If the context is not relevant to the question being
+    asked, do not use it, and tell the user that there may not be information
+    in the documentation relevant to their query.
     Question: {question}
     Context: {context}<|eot_id|><|start_header_id|>assistant<|end_header_id|>
     """
@@ -110,15 +111,35 @@ def get_qa_chain(llm, retriever, prompt):
     return qa_chain
 
 
-def run_conversation(qa_chain):
+def run_conversation(qa_chain, run_batch): # Remove run_batch
+    if run_batch: # Remove this section
+        questions = [
+            "What is Engaging?",
+            "How do I get a GPU?",
+            "What is the best way to use R on the cluster?",
+            "How many CPU cores can I request?"
+        ]
+        for question in questions:
+            print(question)
+            print(qa_chain.invoke(question)["result"])
+        return
+    
     while True:
         question = input("Prompt: ")
         if question.lower() == "quit" or question.lower() == "exit":
+            print("Goodbye!")
             break
         print(qa_chain.invoke(question)["result"])
+    
+    return
 
 
 def main():
+    global LLM_MODEL_NAME
+    global MODEL_TEMPERATURE
+    global VECTOR_STORE_PATH
+    global EMBEDDING_MODEL_NAME
+    
     if "llama" in LLM_MODEL_NAME.lower():
         print("Built with Llama")
 
@@ -150,7 +171,8 @@ def main():
     qa_chain = get_qa_chain(llm, retriever, prompt)
 
     # Run interactive chat session:
-    run_conversation(qa_chain)
+    run_batch = True if sys.argv[4] == "True" else False # Remove this section
+    run_conversation(qa_chain, run_batch) # Remove run_batch
 
     return
 
