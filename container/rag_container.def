@@ -1,0 +1,13 @@
+Bootstrap: docker
+From: python:3.10
+
+%files
+    # Copy requirements file into the container:
+    ../requirements_user.txt /requirements.txt
+
+%post
+    # Install Python packages
+    pip install --no-cache-dir -r /requirements.txt
+
+%runscript
+    exec python /rag.py

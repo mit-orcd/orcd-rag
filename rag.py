@@ -17,7 +17,6 @@ from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
 
 BASE_PATH = os.path.dirname(os.path.abspath(__file__))
 VECTOR_STORE_PATH = os.path.join(BASE_PATH, "orcd_docs_vector_store")
-# VECTOR_STORE_PATH = "/orcd/datasets/orcd_rag/orcd_docs_vector_store" # Will uncomment when we know the vector store path
 VECTOR_STORE_COLLECTION_NAME = "ORCD_docs"
 EMBEDDING_MODEL_NAME = "BAAI/bge-base-en-v1.5"
 LLM_MODEL_NAME = "meta-llama/Llama-3.1-8B-Instruct"
@@ -111,25 +110,13 @@ def get_qa_chain(llm, retriever, prompt):
     return qa_chain
 
 
-def run_conversation(qa_chain, run_batch): # Remove run_batch
+def run_conversation(qa_chain):
     """
     Answer questions in a loop
 
     Inputs:
         qa_chain: RetrievalQA
     """
-    
-    if run_batch: # Remove this section
-        questions = [
-            "What is Engaging?",
-            "How do I get a GPU?",
-            "What is the best way to use R on the cluster?",
-            "How many CPU cores can I request?"
-        ]
-        for question in questions:
-            print(question)
-            print(qa_chain.invoke(question)["result"])
-        return
     
     while True:
         question = input("Prompt: ")
@@ -178,11 +165,7 @@ def main():
     qa_chain = get_qa_chain(llm, retriever, prompt)
 
     # Run interactive chat session:
-    try: # Remove this try/except section
-        run_batch = True if sys.argv[4] == "True" else False
-    except IndexError:
-        run_batch = False
-    run_conversation(qa_chain, run_batch) # Remove run_batch
+    run_conversation(qa_chain)
 
     return
 
