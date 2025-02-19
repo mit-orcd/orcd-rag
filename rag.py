@@ -118,6 +118,10 @@ def run_conversation(qa_chain):
         qa_chain: RetrievalQA
     """
     
+    print("Hello! I am a conversational AI assistant. You can ask me questions \
+          about the ORCD documentation. Type 'quit' or 'exit' to end the \
+          conversation.")
+
     while True:
         question = input("Prompt: ")
         if question.lower() == "quit" or question.lower() == "exit":
