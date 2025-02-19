@@ -2,7 +2,8 @@
 
 module load apptainer
 
-REPO_PATH=/orcd/datasets/001/orcd-rag
+# Get the path to the RAG directory:
+REPO_PATH=$(dirname "$(dirname "$(realpath "$0")")")
 
 # Set HF_HOME if it is not set:
 if [ -z "${HF_HOME}" ]; then

@@ -72,7 +72,6 @@ This script takes two arguments:
 1. Model temperature (default: 0.5)
 2. Path to vector store (default: public ORCD docs)
 3. LLM name (default: Meta Llama 3.1 8B)
-<!-- Check the best model temperature -->
 
 For running with default settings:
 
@@ -106,3 +105,12 @@ or:
 ```bash
 export HF_HOME=/nobackup1/$USER
 ```
+
+<!--
+TODO:
+- Fix vectorstore issue (if people change the LLM, then the program tries to write to the vectorstore which is stored publicly)
+
+Python script:
+- Deal with the "Setting `pad_token_id` to `eos_token_id`:128009 for open-end generation." message
+- Set rag.py to use flags rather than arguments
+-->
