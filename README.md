@@ -31,7 +31,7 @@ export HF_TOKEN="your_user_access_token"
 **Get an interactive session with a GPU on Engaging (replacing the partition and GPU type as necessary):**
 
 ```bash
-salloc -N 1 -n 4 -p mit_normal_gpu --gres=gpu:l40s:1
+salloc -N 1 -n 8 -p mit_normal_gpu --gres=gpu:l40s:1
 ```
 
 *Note: You will need a GPU with at least 40GB of memory. If you don't have a GPU, you can run this on a CPU, but it will be much slower.*
@@ -68,7 +68,7 @@ python process_docs.py
 
 ## Running the RAG Model
 
-This script takes two arguments:
+This script takes three arguments:
 1. Model temperature (default: 0.5)
 2. Path to vector store (default: public ORCD docs)
 3. LLM name (default: Meta Llama 3.1 8B)
