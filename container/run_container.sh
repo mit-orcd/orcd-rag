@@ -10,6 +10,9 @@ if [ -z "${HF_HOME}" ]; then
     export HF_HOME=$HOME/.cache/huggingface
 fi
 
+# Create HF_HOME directory if it does not exist:
+mkdir -p $HF_HOME
+
 apptainer exec --nv \
                --env HF_TOKEN=$HF_TOKEN \
                --env HF_HOME=/tmp/.cache/huggingface \
