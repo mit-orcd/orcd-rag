@@ -22,11 +22,25 @@ process for doing so:
 1. [Create a HuggingFace account](https://huggingface.co/)
 2. Request access to [meta-llama/Llama-3.1-8B-Instruct](https://huggingface.co/meta-llama/Llama-3.1-8B-Instruct)
 3. Create a [user access token](https://huggingface.co/settings/tokens)
-4. Save your user access token as an environment variable on Engaging:
 
-```bash
-export HF_TOKEN="your_user_access_token"
-```
+    You will need to adjust the settings of your user access token so that you
+    can download and run the model. To do so, navigate to your HuggingFace
+    profile, then click "Edit Profile" > "Access Tokens" and edit the
+    permissions for your access token such that all the boxes under "Inference"
+    are checked.
+
+4. Export your access token as an environment variable on Engaging and add to
+your `.bash_profile` so it can be saved for future uses:
+
+    ```bash
+    export HF_TOKEN="your_user_access_token"
+    echo 'export HF_TOKEN="your_user_access_token"' >> ~/.bash_profile
+    ```
+
+    !!! note
+        You will not be able to copy your HF token again from the HF website. If
+        you do not save it somewhere, you will need to generate a new one every
+        time you run this.
 
 **Get an interactive session with a GPU on Engaging (replacing the partition and GPU type as necessary):**
 
