@@ -20,4 +20,3 @@ apptainer exec --nv \
                --bind $REPO_PATH:/tmp/orcd-rag \
                $REPO_PATH/container/rag_container.sif \
                python /tmp/orcd-rag/rag.py
-
