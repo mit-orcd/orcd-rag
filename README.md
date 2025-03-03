@@ -112,5 +112,6 @@ TODO:
 
 Python script:
 - Deal with the "Setting `pad_token_id` to `eos_token_id`:128009 for open-end generation." message
-- Set rag.py to use flags rather than arguments
+- Make the vector store path argument required if LLM model name is given?
+    - Or make the vectorstore copy automatically to someone's home directory
 -->

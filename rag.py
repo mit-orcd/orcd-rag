@@ -5,13 +5,13 @@ System arguments:
 3. LLM name (default: Meta Llama 3.1 8B)
 """
 
+import argparse
 from huggingface_hub import login
 from langchain.chains import RetrievalQA
 from langchain_chroma import Chroma
 from langchain_huggingface import HuggingFaceEmbeddings, HuggingFacePipeline
 from langchain.prompts import PromptTemplate
 import os
-import sys
 import torch
 from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
 
@@ -118,10 +118,10 @@ def run_conversation(qa_chain):
         qa_chain: RetrievalQA
     """
     
-    print("Hello! I am a conversational AI assistant. You can ask me questions \
-          about the ORCD documentation. Type 'quit' or 'exit' to end the \
-          conversation.")
-
+    print("Hello! I am a conversational AI assistant. You can ask me questions",
+          "about the ORCD documentation. Type 'quit' or 'exit' to end the",
+          "conversation.")
+    
     while True:
         question = input("Prompt: ")
         if question.lower() == "quit" or question.lower() == "exit":
@@ -133,32 +133,13 @@ def run_conversation(qa_chain):
 
 
 def main():
-    global LLM_MODEL_NAME
-    global MODEL_TEMPERATURE
-    global VECTOR_STORE_PATH
-    global EMBEDDING_MODEL_NAME
-    
     if "llama" in LLM_MODEL_NAME.lower():
         print("Built with Llama")
-
-    # Read system arguments:
-    try:
-        MODEL_TEMPERATURE = float(sys.argv[1])
-    except IndexError:
-        MODEL_TEMPERATURE = MODEL_TEMPERATURE
-    try:
-        VECTOR_STORE_PATH = sys.argv[2]
-    except IndexError:
-        VECTOR_STORE_PATH = VECTOR_STORE_PATH
-    try:
-        LLM_MODEL_NAME = sys.argv[3]
-    except IndexError:
-        LLM_MODEL_NAME = LLM_MODEL_NAME
 
     # Login to Huggingface:
     access_token = os.getenv("HF_TOKEN")
     login(token=access_token)
-    
+
     # Initialize components:
     llm, retriever = initialize_components()
 
@@ -175,4 +156,24 @@ def main():
 
 
 if __name__ == "__main__":
+    # Read system arguments:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--temperature",
+                        type=float,
+                        default=MODEL_TEMPERATURE,
+                        help="Model temperature " + \
+                             f"(Default: {MODEL_TEMPERATURE})")
+    parser.add_argument("--vector_store_path", type=str,
+                        default=VECTOR_STORE_PATH,
+                        help="Path to vector store " + \
+                             f"(Default: {VECTOR_STORE_PATH})")
+    parser.add_argument("--llm_model_name", type=str,
+                        default=LLM_MODEL_NAME,
+                        help="LLM model name " + \
+                             f"(Default: {LLM_MODEL_NAME})")
+    args = parser.parse_args()
+    MODEL_TEMPERATURE = args.temperature
+    VECTOR_STORE_PATH = args.vector_store_path
+    LLM_MODEL_NAME = args.llm_model_name
+
     main()
