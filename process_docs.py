@@ -27,7 +27,6 @@ for filename in os.listdir(DOCS_PATH):
         loader = UnstructuredMarkdownLoader(file_path)
         documents.extend(loader.load())
 
-vectorstore = Chroma.from_documents(collection_name="ORCD_docs",
-                                    documents=documents,
+vectorstore = Chroma.from_documents(documents=documents,
                                     embedding=embeddings,
                                     persist_directory=VECTOR_STORE_PATH)
