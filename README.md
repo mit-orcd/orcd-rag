@@ -73,8 +73,11 @@ pip install -r requirements_user.txt
 
 ## Creating the Vector Store
 
-You can skip this section if you are using the ORCD documentation vector store
-that is publicly available on Engaging.
+You can skip this part if you are using the ORCD documentation vector store that
+is publicly available on Engaging. Feel free to edit this code so that you can
+create a vector store based on your own documentation. You can edit the path
+to your new vector store using the `--vector_store_path` flag when you run
+`rag.py`.
 
 ```bash
 python process_docs.py
@@ -82,21 +85,10 @@ python process_docs.py
 
 ## Running the RAG Model
 
-This script takes three arguments:
-1. Model temperature (default: 0.5)
-2. Path to vector store (default: public ORCD docs)
-3. LLM name (default: Meta Llama 3.1 8B)
-
 For running with default settings:
 
 ```bash
 python rag.py
-```
-
-To run with customized settings:
-
-```bash
-python rag.py <temperature> </path/to/vector/store> <LLM name>
 ```
 
 The first time you run this, the model will be downloaded from HuggingFace and
@@ -120,12 +112,14 @@ or:
 export HF_HOME=/nobackup1/$USER
 ```
 
+### Adding Optional Flags
+
+This script takes flags so that you can change the model temperature, vector
+store, or LLM being used. Run `python rag.py --help` to see flag information.
+
 <!--
 TODO:
-- Fix vectorstore issue (if people change the LLM, then the program tries to write to the vectorstore which is stored publicly)
 
 Python script:
 - Deal with the "Setting `pad_token_id` to `eos_token_id`:128009 for open-end generation." message
-- Make the vector store path argument required if LLM model name is given?
-    - Or make the vectorstore copy automatically to someone's home directory
 -->

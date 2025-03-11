@@ -17,7 +17,6 @@ from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
 
 BASE_PATH = os.path.dirname(os.path.abspath(__file__))
 VECTOR_STORE_PATH = os.path.join(BASE_PATH, "orcd_docs_vector_store")
-# VECTOR_STORE_COLLECTION_NAME = "ORCD_docs"
 EMBEDDING_MODEL_NAME = "BAAI/bge-base-en-v1.5"
 LLM_MODEL_NAME = "meta-llama/Llama-3.1-8B-Instruct"
 
@@ -37,9 +36,6 @@ def initialize_components():
     embeddings = HuggingFaceEmbeddings(model_name=EMBEDDING_MODEL_NAME)
 
     # Set the vector_store:
-    # vector_store = Chroma(collection_name=VECTOR_STORE_COLLECTION_NAME,
-    #                       persist_directory=VECTOR_STORE_PATH,
-    #                       embedding_function=embeddings)
     vector_store = Chroma(persist_directory=VECTOR_STORE_PATH,
                           embedding_function=embeddings)
     
