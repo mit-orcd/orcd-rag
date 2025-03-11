@@ -1,8 +1,8 @@
 """
-System arguments:
-1. Model temperature (default: 0.5)
-2. Path to vector store (default: public ORCD docs)
-3. LLM name (default: Meta Llama 3.1 8B)
+Flags:
+--temperature: Model temperature (default: 0.5)
+--vector_store_path: Path to vector store (default: public ORCD docs)
+--llm_model_name: LLM model name (default: Meta Llama 3.1 8B)
 """
 
 import argparse
@@ -20,6 +20,7 @@ VECTOR_STORE_PATH = os.path.join(BASE_PATH, "orcd_docs_vector_store")
 VECTOR_STORE_COLLECTION_NAME = "ORCD_docs"
 EMBEDDING_MODEL_NAME = "BAAI/bge-base-en-v1.5"
 LLM_MODEL_NAME = "meta-llama/Llama-3.1-8B-Instruct"
+
 MODEL_TEMPERATURE = 0.5
 
 
@@ -46,8 +47,8 @@ def initialize_components():
 
     # Set up LLM:
     tokenizer = AutoTokenizer.from_pretrained(LLM_MODEL_NAME)
-    terminators = [tokenizer.eos_token_id,
-                tokenizer.convert_tokens_to_ids("<|eot_id|>")]
+    # terminators = [tokenizer.eos_token_id,
+    #                tokenizer.convert_tokens_to_ids("<|eot_id|>")]
     model = AutoModelForCausalLM.from_pretrained(LLM_MODEL_NAME)
     text_generation_pipeline = pipeline(
         model=model,
@@ -58,15 +59,15 @@ def initialize_components():
         repetition_penalty=1.1,
         return_full_text=False,
         max_new_tokens=300,
-        eos_token_id=terminators,
+        eos_token_id=tokenizer.eos_token_id,
         device=0 if torch.cuda.is_available() else -1
     )
     llm = HuggingFacePipeline(pipeline=text_generation_pipeline)
 
-    return llm, retriever
+    return llm, retriever, tokenizer
 
 
-def get_prompt_template():
+def get_prompt_template(tokenizer):
     """
     Get the prompt template for the RAG system
 
@@ -82,8 +83,9 @@ def get_prompt_template():
     asked, do not use it, and tell the user that there may not be information
     in the documentation relevant to their query.
     Question: {question}
-    Context: {context}<|eot_id|><|start_header_id|>assistant<|end_header_id|>
-    """
+    Context: {context}""" + \
+        f"{tokenizer.eos_token}<|start_header_id|>assistant<|end_header_id|>"
+
     prompt = PromptTemplate(
         input_variables=["context", "question"],
         template=prompt_template
@@ -128,7 +130,7 @@ def run_conversation(qa_chain):
             print("Goodbye!")
             break
         print(qa_chain.invoke(question)["result"])
-    
+
     return
 
 
@@ -137,18 +139,13 @@ def main():
         print("Built with Llama")
 
     # Login to Huggingface:
-    access_token = os.getenv("HF_TOKEN")
-    login(token=access_token)
-
+    login(token=os.getenv("HF_TOKEN"))
     # Initialize components:
-    llm, retriever = initialize_components()
-
+    llm, retriever, tokenizer = initialize_components()
     # Set up prompt:
-    prompt = get_prompt_template()
-
+    prompt = get_prompt_template(tokenizer)
     # Set up RAG chain:
     qa_chain = get_qa_chain(llm, retriever, prompt)
-
     # Run interactive chat session:
     run_conversation(qa_chain)
 
@@ -158,7 +155,7 @@ def main():
 if __name__ == "__main__":
     # Read system arguments:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--temperature",
+    parser.add_argument("--temp",
                         type=float,
                         default=MODEL_TEMPERATURE,
                         help="Model temperature " + \
@@ -167,13 +164,20 @@ if __name__ == "__main__":
                         default=VECTOR_STORE_PATH,
                         help="Path to vector store " + \
                              f"(Default: {VECTOR_STORE_PATH})")
-    parser.add_argument("--llm_model_name", type=str,
+    parser.add_argument("--llm", type=str,
                         default=LLM_MODEL_NAME,
                         help="LLM model name " + \
                              f"(Default: {LLM_MODEL_NAME})")
     args = parser.parse_args()
-    MODEL_TEMPERATURE = args.temperature
+    MODEL_TEMPERATURE = args.temp
     VECTOR_STORE_PATH = args.vector_store_path
-    LLM_MODEL_NAME = args.llm_model_name
+    LLM_MODEL_NAME = args.llm
+
+    # Copy vector store to user's home directory:
+    new_vector_store_path = os.path.join(os.getenv("HOME"), ".orcd_rag")
+    os.system(f"mkdir -p {new_vector_store_path}")
+    os.system(f"cp -r {VECTOR_STORE_PATH} {new_vector_store_path}")
+    VECTOR_STORE_PATH = os.path.join(new_vector_store_path,
+                                     os.path.basename(VECTOR_STORE_PATH))
 
     main()
