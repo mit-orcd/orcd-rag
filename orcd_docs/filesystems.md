@@ -4,13 +4,34 @@ Large HPC systems often have different filesystems for different purposes. ORCD 
 
 ## Engaging
 
-Users each get a small home directory that is backed up and meant for important files. Larger scratch space is not backed up. [Additional storage can be purchased](project-filesystems.md). The Lustre scratch space will be faster than NFS for the majority of workloads, however having large numbers of small files will make it slower than NFS and can slow down the filesystem overall, so it is important to follow the [Lustre Best Practices](https://engaging-web.mit.edu/eofe-wiki/best_practices/lustre/). See the [Engaging Documentation Page on Storage](https://engaging-web.mit.edu/eofe-wiki/storage/) for more information.
+Users each get a Home Directory that is backed up and meant for important files. An additional larger Pool space is provided for storing larger datasets longer term. Larger Scratch space is not backed up. [Additional storage can be purchased](project-filesystems.md), and PIs can request an additional 5TB of shared Pool storage for their lab. The Scratch spaces are meant for data used in actively running jobs. It will be faster to access Scratch during your job for the majority of workloads, but it is not backed up and should not be used for long term storage. Any files that cannot be easily replaced should be stored in Home or Pool storage, or backed up outside of Engaging.
 
-| Storage Type      | Path | Quota | Backed up | Purpose/Notes |
-| ----------- | ----------- |----------- |----------- |----------- |
-| Home Directory <br> NFS  | `/home/<username>` | 100 GB | Backed up | Use for important files |
-| Lustre | `/nobackup1/<username>` | 1 TB | Not backed up | Scratch space <br> Faster than NFS |
-| NFS | `/pool001/<username>` | 1 TB | Not backed up | Scratch space |
+See the table below for a description of each storage space. If your account was created before January 2025 and has not yet been migrated to the new storage, select the second tab.
+
+=== "Account Created or Migrated After Jan 2025"
+    | Storage Type      | <div style="width:18em">Path</div> | Quota | Backed up | Purpose/Notes |
+    | ----------- | ----------- |----------- |----------- |----------- |
+    | Home Directory <br> Flash  | `/home/<username>` | 200 GB | Backed up with snapshots | Use for important files and software |
+    | Pool <br> Hard Disk | `/home/<username>/orcd/pool` | 1 TB | Disaster recovery backup | Storing larger datasets |
+    | Scratch <br> Flash | `/home/<username>/orcd/scratch` | 1 TB | **Not backed up** | Scratch space for I/O heavy jobs |
+
+    !!! warning  "Scratch is Not Backed Up"
+        Scratch is meant for temporary storage while running compute jobs. It is not meant for long term storage and **is not backed up**. **If you have not logged in for 6 months files in scratch will be deleted**. Any files that you would like to keep long-term should be copied onto another storage location with backup.
+=== "Account Created Before Jan 2025 or Not Yet Migrated"
+    | Storage Type      | <div style="width:12em">Path</div> | Quota | Backed up | Purpose/Notes |
+    | ----------- | ----------- |----------- |----------- |----------- |
+    | Home Directory <br> NFS  | `/home/<username>` | 100 GB | Backed up | Use for important files |
+    | NFS | `/pool001/<username>` | 1 TB | Not backed up | Scratch space |
+    | Lustre | `/nobackup1/<username>` | 1 TB | Not backed up | Scratch space <br> Heavy I/O jobs with few, large files |
+
+    !!! warning  "Lustre /nobackup1 is Not Backed Up"
+        /nobackup1 is meant for temporary storage while running compute jobs. It is not meant for long term storage and **is not backed up**. Any files that you would like to keep long-term should be copied onto another storage location with backup.
+
+    !!! note "Lustre /nobackup1 performs best with fewer, larger files"
+        Having large numbers of small files will make Lustre slower than NFS and can slow down the filesystem overall, so it is important to follow the [Lustre Best Practices](lustre-best-practices.md).
+
+
+
 
 ## Satori
 

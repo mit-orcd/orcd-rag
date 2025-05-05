@@ -1,5 +1,10 @@
 # Implementing a RAG Model on the ORCD Documentation
 
+<!-- TODO:
+- Change to DeepSeek
+- Python script:
+    - Deal with the "Setting `pad_token_id` to `eos_token_id`:128009 for open-end generation." message-->
+
 ## Authors
 
 - **Riya Tyagi** - [GitHub Profile](https://github.com/Centrattic)
@@ -45,14 +50,14 @@ your `.bash_profile` so it can be saved for future uses:
 **Get an interactive session with a GPU on Engaging (replacing the partition and GPU type as necessary):**
 
 ```bash
-salloc -N 1 -n 8 -p mit_normal_gpu --gres=gpu:l40s:1
+salloc -N 1 -n 8 -p mit_normal_gpu -G l40s:1
 ```
 
-*Note: You will need a GPU with at least 40GB of memory. If you don't have a GPU, you can run this on a CPU, but it will be much slower.*
+*Note: For the Llama 8B model, you will need a GPU with at least 40GB of memory. If you don't have a GPU, you can run this on a CPU, but it will be much slower.*
 
 **Create a Python virtual environment:**
 
-For [creating the vector store](process_docs.py) and
+For [creating the vector store](create_vectorstore.py) and
 [running the RAG model](rag.py):
 
 ```bash
@@ -74,14 +79,26 @@ pip install -r requirements_user.txt
 ## Creating the Vector Store
 
 You can skip this part if you are using the ORCD documentation vector store that
-is publicly available on Engaging. Feel free to edit this code so that you can
-create a vector store based on your own documentation. You can edit the path
-to your new vector store using the `--vector_store_path` flag when you run
-`rag.py`.
+is publicly available on Engaging.
+
+Currently you are able to create a vector store from `.pdf` or `.md` files, or
+a mixture of both.
 
 ```bash
-python process_docs.py
+python create_vectorstore.py --docs_dir <documents directory>
 ```
+
+For example:
+
+```bash
+python create_vectorstore.py --docs_dir orcd_docs
+```
+
+This will create a new directory containing your vector store:
+`<dir name>_vector_store` (e.g. `orcd_docs_vector_store`)
+
+You can edit the path to your new vector store using the `--vector_store_path`
+flag when you run `rag.py`.
 
 ## Running the RAG Model
 
@@ -103,7 +120,7 @@ scratch directory (depending on your storage setup), that would look something
 like this:
 
 ```bash
-export HF_HOME=/home/$USER/orcd/r8/scratch
+export HF_HOME=/home/$USER/orcd/scratch
 ```
 
 or:
@@ -116,10 +133,3 @@ export HF_HOME=/nobackup1/$USER
 
 This script takes flags so that you can change the model temperature, vector
 store, or LLM being used. Run `python rag.py --help` to see flag information.
-
-<!--
-TODO:
-
-Python script:
-- Deal with the "Setting `pad_token_id` to `eos_token_id`:128009 for open-end generation." message
--->

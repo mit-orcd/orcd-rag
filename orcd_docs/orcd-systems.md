@@ -43,7 +43,6 @@ Connecting to the cluster for the first time through its [web portal](https://en
 
 ### Engaging Quick Links
 
-- Additional Documentation: [https://engaging-web.mit.edu/eofe-wiki/](https://engaging-web.mit.edu/eofe-wiki/)
 - OnDemand web portal: [https://engaging-ood.mit.edu](https://engaging-ood.mit.edu)
 - Help: Send email to <orcd-help-engaging@mit.edu>
 
@@ -72,17 +71,11 @@ You can get an account by logging into [https://satori-portal.mit.edu](https://s
 ## SuperCloud
 
 The SuperCloud system is a collaboration with MIT Lincoln Laboratory on a shared facility that 
-is optimized for streamlining open research collaborations with Lincoln Laboratory. The facility 
-is open to everyone on campus. The latest SuperCloud system has more than 16,000 x86 CPU cores 
-and more than 850 NVidia Volta GPUs in total. Hardware access is through the Slurm resource 
-scheduler that supports batch and interactive workloads and allows dedicated reservations. A wide 
-range of standard software is available and the Docker compatible Singularity container tool is 
-supported. User-level tools like Anaconda for Python, R libraries, and Julia packages are all supported. A custom, web-based portal supporting Jupyter notebooks is available at
-[https://txe1-portal.mit.edu/](https://txe1-portal.mit.edu/). Further information and support is available at <supercloud@mit.edu>.
+is optimized for streamlining open research collaborations with Lincoln Laboratory  (e.g.,  [AIA](https://aia.mit.edu/research/), [BW](https://beaverworks.ll.mit.edu/CMS/bw/collaborators), [CQE](https://cqe.mit.edu/people/), [Haystack](https://www.haystack.mit.edu/haystack-directory/), [HPEC](https://ieee-hpec.org/index.php/technical-committee/), [ISN](https://isn.mit.edu/people)). The facility is open to those with a Lincoln Laboratory collaboration. The latest SuperCloud system has more than 16,000 x86 CPU cores  and more than 850 NVidia Volta GPUs in total. Hardware access is through the Slurm resource scheduler that supports batch and interactive workloads and allows dedicated reservations. A wide range of standard software is available and the Docker compatible Singularity container tool is supported. User-level tools like Anaconda for Python, R libraries, and Julia packages are all supported. A custom, web-based portal supporting Jupyter notebooks is available at [https://txe1-portal.mit.edu/](https://txe1-portal.mit.edu/). Further information and support is available at <supercloud@mit.edu>.
 
 ### How to Get an Account on SuperCloud
 
-To request a SuperCloud account follow the instructions on SuperCloud's [Requesting an Account](https://supercloud.mit.edu/requesting-account) page.
+To request a SuperCloud account follow the instructions on SuperCloud's [Requesting an Account](https://mit-supercloud.github.io/supercloud-docs/requesting-account/) page.
 
 ### SuperCloud Quick Links
 

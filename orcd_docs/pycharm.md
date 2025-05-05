@@ -30,8 +30,8 @@ login node will probably not work.
 ## Requesting a Compute Node
 
 To run PyCharm on a compute node, you first need to request an interactive job
-with 4 cores on the cluster. PyCharm recommends using 4 cores so that the
-application can run more quickly.
+with at least 4 cores on the cluster. PyCharm recommends using 4 cores so that the
+application can run more quickly. Request more resources as required by your code.
 
 ```bash
 salloc -N 1 -n 4 -p mit_normal

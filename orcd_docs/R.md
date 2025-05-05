@@ -147,7 +147,6 @@ Both of these commands essentially prepend your custom path to the library path 
 
 ## Further Resources
 
-[Engaging: R Packages](https://engaging-web.mit.edu/eofe-wiki/software/r_packages/)
 
 [Satori: R on Satori](https://mit-satori.github.io/satori-R.html)
 

@@ -37,10 +37,6 @@ If you don't already have an account, click on the tab for the system you are in
 The first thing you should do when you get a new account is verify that
 you can log in. The different ORCD systems provide multiple ways to log in, including both ssh and web portals. Links to instructions for the different systems are below.
 
-=== "Engaging"
-
-    See the [Logging into Engaging](https://engaging-web.mit.edu/eofe-wiki/logging_in/) page for full documentation.
-
 === "Satori"   
     
     See the [Logging into Satori](https://mit-satori.github.io/satori-ssh.html) page for full documentation.
@@ -111,7 +107,7 @@ you can log in. The different ORCD systems provide multiple ways to log in, incl
 
 === "Engaging"
 
-    You can log into OnDemand Web Portal with the link: [https://engaging-ood.mit.edu](https://engaging-ood.mit.edu). For full detailed instructions please see the [Engaging Documentation](https://engaging-web.mit.edu/eofe-wiki/logging_in/engaging-ood/).
+    You can log into OnDemand Web Portal with the link: [https://engaging-ood.mit.edu](https://engaging-ood.mit.edu). For full detailed instructions please see the [Engaging Documentation](accessing-orcd/ondemand-login.md).
 
 === "Satori"   
 
@@ -119,7 +115,7 @@ you can log in. The different ORCD systems provide multiple ways to log in, incl
 
 === "SuperCloud"   
 
-    You can log into the SuperCloud Web Portal with the link: [https://txe1-portal.mit.edu](https://txe1-portal.mit.edu). For full detailed instructions please see the [SuperCloud Documentation](https://supercloud.mit.edu/getting-started).
+    You can log into the SuperCloud Web Portal with the link: [https://txe1-portal.mit.edu](https://txe1-portal.mit.edu). For full detailed instructions please see the [SuperCloud Documentation](https://mit-supercloud.github.io/supercloud-docs/getting-started/).
 
 === "OpenMind"   
     
@@ -157,7 +153,7 @@ obvious that it is there. Review the page for the system you are using paying pa
 
 === "Engaging"
 
-    [Engaging Software Documentation Page](https://engaging-web.mit.edu/eofe-wiki/software/)
+    The Engaging Software documentation is available under the "Software" section on this site (see the sidebar on the left). We recommend reading through both the [Overview](software/overview.md) and [Modules](software/modules.md) pages, and then select the additional pages most relevant to you.
     
 === "Satori"
 
@@ -280,9 +276,10 @@ you need into your home directory on the system. If your code is in
 github you can use git commands on the system to clone your repository
 to your home directory. You can also transfer your files to your home
 directory from your computer by using the commands `scp` or `rsync`. Read
-the page on Transferring Files for the system you are using to learn
-how to use these commands and transfer what you need to your home
-directory.
+the page on
+[Transferring Files](./filesystems-file-transfer/transferring-files.md) for the
+system you are using to learn how to use these commands and transfer what you
+need to your home directory.
 
 You can use `scp` or `rsync` from the command line on your local computer for any ORCD system. Both commands work similarly to the `cp` command, following the pattern `<command> <source> <destination>`, the only difference being that you will need to include the hostname of the system you are transferring to or from. For this reason you *must* run this command from the terminal on your computer *before you've logged in*.
 
@@ -294,7 +291,8 @@ To transfer a file from your computer to the ORCD system:
     scp <file-name> USERNAME@orcd-login001.mit.edu:<path-to-engaging-dir>
     ```
 
-    (You can use any of the login nodes listed above)
+    (You can use any of the login nodes listed above. Note that you will need to
+    authenticate with Duo)
 
 === "Satori"
 
@@ -378,27 +376,8 @@ Similar to `cp`, use the `-r` flag to copy over an entire directory and its cont
 
 The `rsync` command can be used similarly and has some additional flags you can use. It also can be used to transfer only new or modified files to the destination, which makes it easy to keep a directory in "sync".
 
-For more information on transferring files and additional methods please see the documentation page for your system:
+For more information on transferring files and additional methods please see the [Transferring Files](filesystems-file-transfer/transferring-files.md) page.
 
-=== "Engaging"
-
-    Engaging Transferring Files Documentation Page Coming Soon
-
-    <!--
-    TODO: Add engaging link
-    -->
-    
-=== "Satori"
-
-    [Satori Transferring Files Documentation Page](https://mit-satori.github.io/satori-getting-started.html#transferring-files)
-
-=== "SuperCloud"
-
-    [SuperCloud Transferring Files Documentation Page](https://supercloud.mit.edu/accessing-and-transferring-data-and-files)
-
-=== "OpenMind"
-
-    [OpenMind Transferring Files Documentation Page](https://github.mit.edu/MGHPCC/OpenMind/wiki/How-to-transfer-files%3F)
 
 Running your First Job
 ----------------------
@@ -414,7 +393,7 @@ session to run your code in by executing the command:
 
     ``` bash
     # Requesting a single core for an interactive job for 1 hour
-    srun -n 1  -t 01:00:00 --pty /bin/bash
+    salloc -t 01:00:00 -p mit_normal
     ```
 
 === "Satori"
@@ -447,7 +426,7 @@ Please see your system's documentation pages for more information on requesting 
 
 === "Engaging"
 
-    [Engaging's Documentation for Running Jobs](https://engaging-web.mit.edu/eofe-wiki/slurm/)
+    The Engaging documentation on running jobs is available under the "Running Jobs" section on this site (see the sidebar on the left). We recommend reading through both the [Overview](running-jobs/overview.md) and [Requesting Resources](running-jobs/requesting-resources.md) pages, and then select the additional pages most relevant to you.
     
 === "Satori"
 

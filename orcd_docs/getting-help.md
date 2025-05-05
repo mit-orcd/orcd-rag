@@ -7,9 +7,8 @@ tags:
 
 ## Additional Documentation
 
-If you haven't found your answer elsewhere in these pages, your answer may be in the documentation for the system you are using:
+Engaging documentation can be found on these pages. If you haven't found your answer for other systems elsewhere in these pages, your answer may be in the documentation for the system you are using:
 
-- [Engaging Documentation](https://engaging-web.mit.edu/eofe-wiki/)
 - [Satori Documentation](https://mit-satori.github.io/)
 - [SuperCloud Documentation](https://supercloud.mit.edu/)
 - [OpenMind Documentation](https://github.mit.edu/MGHPCC/OpenMind/wiki)

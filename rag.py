@@ -1,8 +1,8 @@
 """
 Flags:
---temperature: Model temperature (default: 0.5)
+--temp: Model temperature (default: 0.5)
 --vector_store_path: Path to vector store (default: public ORCD docs)
---llm_model_name: LLM model name (default: Meta Llama 3.1 8B)
+--llm: LLM model name (default: Meta Llama 3.1 8B)
 """
 
 import argparse
@@ -118,7 +118,7 @@ def run_conversation(qa_chain):
     """
     
     print("Hello! I am a conversational AI assistant. You can ask me questions",
-          "about the ORCD documentation. Type 'quit' or 'exit' to end the",
+          "about the provided documents. Type 'quit' or 'exit' to end the",
           "conversation.")
     
     while True:
@@ -157,11 +157,13 @@ if __name__ == "__main__":
                         default=MODEL_TEMPERATURE,
                         help="Model temperature " + \
                              f"(Default: {MODEL_TEMPERATURE})")
-    parser.add_argument("--vector_store_path", type=str,
+    parser.add_argument("--vector_store_path",
+                        type=str,
                         default=VECTOR_STORE_PATH,
                         help="Path to vector store " + \
                              f"(Default: {VECTOR_STORE_PATH})")
-    parser.add_argument("--llm", type=str,
+    parser.add_argument("--llm",
+                        type=str,
                         default=LLM_MODEL_NAME,
                         help="LLM model name " + \
                              f"(Default: {LLM_MODEL_NAME})")
