@@ -27,4 +27,4 @@ apptainer exec --nv \
                --bind $HF_HOME:/tmp/.cache/huggingface \
                --bind $REPO_PATH:/tmp/orcd-rag \
                $SIF_PATH \
-               python /tmp/orcd-rag/rag.py
+               python /tmp/orcd-rag/rag.py $1 $2 $3 $4 $5 $6 $7 $8

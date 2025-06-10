@@ -3,6 +3,7 @@ Flags:
 --temp: Model temperature (default: 0.5)
 --vector_store_path: Path to vector store (default: public ORCD docs)
 --llm: LLM model name (default: Meta Llama 3.1 8B)
+--queries: Queries to run in a batch session
 """
 
 import argparse
@@ -16,10 +17,9 @@ import torch
 from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
 
 BASE_PATH = os.path.dirname(os.path.abspath(__file__))
-VECTOR_STORE_PATH = os.path.join(BASE_PATH, "orcd_docs_vector_store")
+VECTOR_STORE_PATH = os.path.join(BASE_PATH, "orcd-docs-edit_vector_store")
 EMBEDDING_MODEL_NAME = "BAAI/bge-base-en-v1.5"
-LLM_MODEL_NAME = "meta-llama/Llama-3.1-8B-Instruct"
-
+LLM_MODEL_NAME = "mistralai/Ministral-8B-Instruct-2410"
 MODEL_TEMPERATURE = 0.5
 
 
@@ -72,16 +72,30 @@ def get_prompt_template(tokenizer):
         prompt: PromptTemplate
     """
 
-    prompt_template = """
-    <|start_header_id|>user<|end_header_id|>
+    # Determine headers based on LLM:
+    if "llama" in LLM_MODEL_NAME.lower():
+        headers = {"start": "<|start_header_id|>user<|end_header_id|>",
+                   "end": "<|start_header_id|>assistant<|end_header_id|>"}
+    elif "mistral" in LLM_MODEL_NAME.lower():
+        headers = {"start": "[INST]",
+                   "end": "[/INST]"}
+    else:
+        raise ValueError("Unsupported LLM model name. Please use a Llama or Mistral model.")
+    
+    prompt_background = """
     You are an assistant for answering questions using provided context. You are
     given the extracted parts of a long document and a question. Provide a
     conversational answer. If the context is not relevant to the question being
     asked, do not use it, and tell the user that there may not be information
-    in the documentation relevant to their query.
-    Question: {question}
-    Context: {context}""" + \
-        f"{tokenizer.eos_token}<|start_header_id|>assistant<|end_header_id|>"
+    in the documentation relevant to their query. Keep your answers concise.
+    """
+
+    prompt_template = f"""
+    {headers['start']}
+    {prompt_background}
+    Question: {{question}}
+    Context: {{context}}
+    {tokenizer.eos_token}{headers['end']}"""
 
     prompt = PromptTemplate(
         input_variables=["context", "question"],
@@ -109,7 +123,23 @@ def get_qa_chain(llm, retriever, prompt):
     return qa_chain
 
 
-def run_conversation(qa_chain):
+def run_batch(qa_chain, queries):
+    """
+    Run a batch of queries
+
+    Inputs:
+        qa_chain: RetrievalQA
+        queries: list of queries
+    """
+
+    for question in queries:
+        print(f"Prompt: {question}")
+        print(qa_chain.invoke(question)["result"])
+
+    return
+
+
+def run_interactive(qa_chain):
     """
     Answer questions in a loop
 
@@ -117,7 +147,7 @@ def run_conversation(qa_chain):
         qa_chain: RetrievalQA
     """
     
-    print("Hello! I am a conversational AI assistant. You can ask me questions",
+    print("\nHello! I am a conversational AI assistant. You can ask me questions",
           "about the provided documents. Type 'quit' or 'exit' to end the",
           "conversation.")
     
@@ -126,12 +156,12 @@ def run_conversation(qa_chain):
         if question.lower() == "quit" or question.lower() == "exit":
             print("Goodbye!")
             break
-        print(qa_chain.invoke(question)["result"])
+        print("\n", qa_chain.invoke(question)["result"])
 
     return
 
 
-def main():
+def main(queries):
     if "llama" in LLM_MODEL_NAME.lower():
         print("Built with Llama")
 
@@ -143,8 +173,12 @@ def main():
     prompt = get_prompt_template(tokenizer)
     # Set up RAG chain:
     qa_chain = get_qa_chain(llm, retriever, prompt)
-    # Run interactive chat session:
-    run_conversation(qa_chain)
+    if queries:
+        # Use pre-defined queries:
+        run_batch(qa_chain, queries)
+    else:
+        # Run interactive chat session:
+        run_interactive(qa_chain)
 
     return
 
@@ -167,16 +201,23 @@ if __name__ == "__main__":
                         default=LLM_MODEL_NAME,
                         help="LLM model name " + \
                              f"(Default: {LLM_MODEL_NAME})")
+    parser.add_argument("--queries",
+                        type=str,
+                        nargs="+",
+                        default=None,
+                        help="Enter queries to run in a batch session")
     args = parser.parse_args()
     MODEL_TEMPERATURE = args.temp
     VECTOR_STORE_PATH = args.vector_store_path
     LLM_MODEL_NAME = args.llm
+    queries = args.queries
 
     # Copy vector store to user's home directory:
-    new_vector_store_path = os.path.join(os.getenv("HOME"), ".orcd_rag")
+    new_vector_store_path = os.path.join(os.getenv("HOME"), ".cache",
+                                         "orcd_rag", "vector_stores")
     os.system(f"mkdir -p {new_vector_store_path}")
     os.system(f"cp -r {VECTOR_STORE_PATH} {new_vector_store_path}")
     VECTOR_STORE_PATH = os.path.join(new_vector_store_path,
                                      os.path.basename(VECTOR_STORE_PATH))
 
-    main()
+    main(queries)
