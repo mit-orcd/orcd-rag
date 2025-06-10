@@ -23,7 +23,7 @@ Some DLCIs maintain their own set of resources. See [this page](https://orcd.mit
 
 There are three main steps or milestones for moving to a new system. These will be similar to the steps you take when getting a new account on any system.
 
-- Transfer data: Identify what data you need to keep and transfer it to the new system. We will provide documentation on this page in the near future for recommended ways to transfer large amounts of data.
+- Transfer data: Identify what data you need to keep and transfer it to the new system. See the [Migrating Data from SuperCloud](#migrating-data-from-supercloud) section below for recommended ways to transfer large amounts of data.
 - Build any missing software: Check the software stack of the new system and see what you may need to rebuild or request. Engaging maintains a software stack through modules that includes many of the software packages provided on SuperCloud. Names may be different, so run `module avail` to check for differences.
 - Run jobs: Run small tests before running larger production jobs. Both SuperCloud and Engaging use Slurm, but Engaging does not have the `LL` commands such as `LLsub`, `LLfree`, and `LLstat`. Some `sbatch` flags may differ between the two systems as well. We will provide documentation on this page in the near future for the Engaging equivalent for common SuperCloud job workflows. You can also consult the section on Running Jobs in this documentation.
 
@@ -219,7 +219,7 @@ In the left pane search for your SuperCloud Personal collection using the name y
 - MIT ORCD Engaging Data Collection - For lab purchased storage spaces
 - MIT ORCD Engaging Complete Collection - Use if you cannot find your destination at the above. This collection starts at `/orcd/` on the Engaging filesystem.
 
-If you need help finding the target directory on Engaging with Globus send an email to <orcd-help@mit.edu> or stop by [office hours]((https://orcd.mit.edu/news-and-events/office-hours)) and we can help you.
+If you need help finding the target directory on Engaging with Globus send an email to <orcd-help@mit.edu> or stop by [office hours](https://orcd.mit.edu/news-and-events/office-hours) and we can help you.
 
 Once you have selected your target collection navigate to the directory where you want to transfer your data. Create a directory called "SuperCloud" and select it.
 

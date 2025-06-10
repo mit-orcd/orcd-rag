@@ -17,7 +17,7 @@ import torch
 from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
 
 BASE_PATH = os.path.dirname(os.path.abspath(__file__))
-VECTOR_STORE_PATH = os.path.join(BASE_PATH, "orcd-docs-edit_vector_store")
+VECTOR_STORE_PATH = os.path.join(BASE_PATH, "orcd_docs_vector_store")
 EMBEDDING_MODEL_NAME = "BAAI/bge-base-en-v1.5"
 LLM_MODEL_NAME = "mistralai/Ministral-8B-Instruct-2410"
 MODEL_TEMPERATURE = 0.5

@@ -2,10 +2,7 @@
 
 ### How do I get GPU access?
 
-Currently we have many public GPUs available to the MIT community on Satori and
-we are working on getting more on Engaging. If you have access to a partition
-with GPUs (e.g., if your lab has purchased some), you can request GPUs for your
-job by following [this documentation](running-jobs/requesting-resources.md#gpus).
+We have L40S and H200 GPUs available on Engaging through the `mit_normal_gpu` partition. There are also a variety of GPU types available through the [`mit_preemptable`](running-jobs/overview.md#preemptable-jobs) partition. Take a look at out page on [requesting resources](running-jobs/requesting-resources.md#gpus) to see how to request them for your job.
 
 If your lab would like to purchase GPUs to be hosted on Engaging, please contact
 <orcd-help-engaging@mit.edu>.
@@ -161,3 +158,6 @@ chmod +x ./Miniconda3-latest-Linux-ppc64le.sh
 ./Miniconda3-latest-Linux-ppc64le.sh -b -p ./mc3
 source ./mc3/bin/activate
 ```
+
+### Why doesn't my password work when I try to run the sudo command?
+Regular users are not allowed to use sudo on engaging. Engaging is a shared environment. Sudo enables root-level access which allows our system administrators to modify system files, install software and change permissions. If misused unintentionally or accidentally, it could compromise the entire cluster. Therefore, use of sudo is reserved for engaging system administrators who work to secure, maintain, and tune the cluster. If you need specific software and you are having difficultly installing it, contact orcd-help@mit.edu and someone on the staff can assist you. Please see `https://orcd-docs.mit.edu/software/overview/` for more information. 
