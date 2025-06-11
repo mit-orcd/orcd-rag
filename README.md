@@ -20,9 +20,9 @@ ssh $USER@orcd-login001.mit.edu
 
 **Get access to the LLM on HuggingFace:**
 
-The LLMs used in this pipeline are from HuggingFace. By default, we use Llama
-3.1, which is gated and requires users to request access. You can follow this
-process for doing so:
+The LLMs used in this pipeline are from HuggingFace. By default, we use a model
+from Mistral, which is gated and requires users to request access. You can
+follow this process for doing so:
 
 1. [Create a HuggingFace account](https://huggingface.co/)
 2. Request access to [mistralai/Ministral-8B-Instruct-2410](https://huggingface.co/mistralai/Ministral-8B-Instruct-2410)
