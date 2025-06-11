@@ -3,7 +3,7 @@ From: python:3.10
 
 %files
     # Copy requirements file into the container:
-    ../requirements_user.txt /requirements.txt
+    ../requirements.txt /requirements.txt
 
 %post
     # Install Python packages

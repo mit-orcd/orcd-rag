@@ -18,14 +18,14 @@
 ssh $USER@orcd-login001.mit.edu
 ```
 
-**Get access to Llama 3.1:**
+**Get access to the LLM on HuggingFace:**
 
 The LLMs used in this pipeline are from HuggingFace. By default, we use Llama
 3.1, which is gated and requires users to request access. You can follow this
 process for doing so:
 
 1. [Create a HuggingFace account](https://huggingface.co/)
-2. Request access to [meta-llama/Llama-3.1-8B-Instruct](https://huggingface.co/meta-llama/Llama-3.1-8B-Instruct)
+2. Request access to [mistralai/Ministral-8B-Instruct-2410](https://huggingface.co/mistralai/Ministral-8B-Instruct-2410)
 3. Create a [user access token](https://huggingface.co/settings/tokens)
 
     You will need to adjust the settings of your user access token so that you
@@ -53,7 +53,7 @@ your `.bash_profile` so it can be saved for future uses:
 salloc -N 1 -n 8 -p mit_normal_gpu -G l40s:1
 ```
 
-*Note: For the Llama 8B model, you will need a GPU with at least 40GB of memory. If you don't have a GPU, you can run this on a CPU, but it will be much slower.*
+*Note: For the 8B model, you will need a GPU with at least 40GB of memory. If you don't have a GPU, you can run this on a CPU, but it will be much slower.*
 
 **Create a Python virtual environment:**
 
@@ -62,18 +62,9 @@ For [creating the vector store](create_vectorstore.py) and
 
 ```bash
 module load miniforge
-python -m venv venv_dev
-source venv_dev/bin/activate
+python -m venv venv_rag
+source venv_rag/bin/activate
 pip install -r requirements_dev.txt
-```
-
-For just [running the RAG model](rag.py) (if you are using the pre-created vector store on Engaging):
-
-```bash
-module load miniforge
-python -m venv venv_user
-source venv_user/bin/activate
-pip install -r requirements_user.txt
 ```
 
 ## Creating the Vector Store
@@ -112,7 +103,7 @@ The first time you run this, the model will be downloaded from HuggingFace and
 cached, so it may take a while to get running. Subsequent times will be much
 quicker because the model has already been downloaded.
 
-Llama 3.1 8B takes about 15GB of space. The default cache location for
+The 8B model takes about 15GB of space. The default cache location for
 HuggingFace models is `$HOME/.cache/huggingface`. If you do not have enough space
 in your home directory to store the model, you can set the `HF_HOME` environment
 variable to point to another diectory. For example, to save models to your

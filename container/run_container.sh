@@ -3,13 +3,13 @@
 module load apptainer
 
 # Get the path to the RAG directory:
-REPO_PATH=$(dirname "$(dirname "$(realpath "$0")")")
+WORKDIR=$(dirname "$(dirname "$(realpath "$0")")")
 
-# Set path to global .sif image if it exists:
-if [ -f "/orcd/software/community/001/container_images/orcd-rag/20250311/rag_container.sif" ]; then
-    SIF_PATH=/orcd/software/community/001/container_images/orcd-rag/20250311/rag_container.sif
+# Check for local image, use global otherwise:
+if [ -f $WORKDIR/container/rag_container.sif ]; then
+    SIF_PATH=$WORKDIR/container/rag_container.sif
 else
-    SIF_PATH=$REPO_PATH/container/rag_container.sif
+    SIF_PATH="/orcd/software/community/001/container_images/orcd-rag/20250611/rag_container.sif"
 fi
 echo "Using image located at ${SIF_PATH}"
 
@@ -25,6 +25,6 @@ apptainer exec --nv \
                --env HF_TOKEN=$HF_TOKEN \
                --env HF_HOME=/tmp/.cache/huggingface \
                --bind $HF_HOME:/tmp/.cache/huggingface \
-               --bind $REPO_PATH:/tmp/orcd-rag \
+               --bind $WORKDIR:/tmp/orcd-rag \
                $SIF_PATH \
                python /tmp/orcd-rag/rag.py $1 $2 $3 $4 $5 $6 $7 $8
