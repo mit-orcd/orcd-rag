@@ -28,7 +28,7 @@ salloc -N 1 -n 8 --mem-per-cpu=4G -p mit_normal_gpu -G l40s:1
 Run RAG within the container:
 
 ```bash
-sh run_container.sh
+sh run_rag_with_container.sh
 ```
 
 This script runs the container based on the `.sif` file.
