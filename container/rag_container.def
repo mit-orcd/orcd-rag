@@ -1,10 +1,10 @@
 Bootstrap: docker
-From: python:3.10
+From: condaforge/miniforge3
 
 %files
     # Copy requirements file into the container:
-    ../requirements.txt /requirements.txt
+    ../environment.yml /environment.yml
 
 %post
     # Install Python packages
-    pip install --no-cache-dir -r /requirements.txt
+    conda env create -f /environment.yml

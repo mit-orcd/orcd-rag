@@ -1,10 +1,5 @@
 # Implementing a RAG Model on the ORCD Documentation
 
-<!-- TODO:
-- Change to DeepSeek
-- Python script:
-    - Deal with the "Setting `pad_token_id` to `eos_token_id`:128009 for open-end generation." message-->
-
 ## Authors
 
 - **Riya Tyagi** - [GitHub Profile](https://github.com/Centrattic)
@@ -55,16 +50,11 @@ salloc -N 1 -n 8 -p mit_normal_gpu -G l40s:1
 
 *Note: For the 8B model, you will need a GPU with at least 40GB of memory. If you don't have a GPU, you can run this on a CPU, but it will be much slower.*
 
-**Create a Python virtual environment:**
-
-For [creating the vector store](create_vectorstore.py) and
-[running the RAG model](rag.py):
+**Create a Conda environment:**
 
 ```bash
 module load miniforge
-python -m venv venv_rag
-source venv_rag/bin/activate
-pip install -r requirements_dev.txt
+conda env create -f environment.yml
 ```
 
 ## Creating the Vector Store
@@ -73,16 +63,17 @@ You can skip this part if you are using the ORCD documentation vector store that
 is publicly available on Engaging.
 
 Currently you are able to create a vector store from `.pdf` or `.md` files, or
-a mixture of both.
+a mixture of both. Larger PDFs may need to be split into multiple smaller
+documents.
 
 ```bash
-python create_vectorstore.py --docs_dir <documents directory>
+python create_vectorstore.py --docs_path <path to documents directory>
 ```
 
 For example:
 
 ```bash
-python create_vectorstore.py --docs_dir orcd_docs
+python create_vectorstore.py --docs_path orcd_docs
 ```
 
 This will create a new directory containing your vector store:
@@ -111,13 +102,13 @@ scratch directory (depending on your storage setup), that would look something
 like this:
 
 ```bash
-export HF_HOME=/home/$USER/orcd/scratch
+export HF_HOME=/home/$USER/orcd/scratch/.cache/huggingface
 ```
 
 or:
 
 ```bash
-export HF_HOME=/nobackup1/$USER
+export HF_HOME=/nobackup1/$USER/.cache/huggingface
 ```
 
 ### Adding Optional Flags
