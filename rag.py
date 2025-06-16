@@ -215,8 +215,9 @@ if __name__ == "__main__":
     # Copy vector store to user's home directory:
     new_vector_store_path = os.path.join(os.getenv("HOME"), ".cache",
                                          "orcd_rag", "vector_stores")
-    os.system(f"mkdir -p {new_vector_store_path}")
-    os.system(f"cp -r {VECTOR_STORE_PATH} {new_vector_store_path}")
+    if os.path.dirname(VECTOR_STORE_PATH) != new_vector_store_path:
+        os.system(f"mkdir -p {new_vector_store_path}")
+        os.system(f"cp -r {VECTOR_STORE_PATH} {new_vector_store_path}")
     VECTOR_STORE_PATH = os.path.join(new_vector_store_path,
                                      os.path.basename(VECTOR_STORE_PATH))
 

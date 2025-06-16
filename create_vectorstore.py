@@ -39,13 +39,15 @@ def load_documents(docs_path):
 def main(docs_path):
     docs_dir = os.path.basename(docs_path)
     vector_store_dir = f"{docs_dir}_vector_store"
+    vector_store_path = os.path.join(os.getenv("HOME"), ".cache", "orcd_rag",
+                                     "vector_stores", vector_store_dir)
     # Set the embeddings model:
     embeddings = HuggingFaceEmbeddings(model_name=EMBEDDING_MODEL_NAME)
     documents = load_documents(docs_path)
     Chroma.from_documents(documents=documents,
                           embedding=embeddings,
-                          persist_directory=os.path.join(WORKDIR,
-                                                         vector_store_dir))
+                          persist_directory=vector_store_path)
+    print(f"Vector store created at {vector_store_path}")
     
     return
 
