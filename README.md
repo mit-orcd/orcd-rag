@@ -45,7 +45,7 @@ your `.bash_profile` so it can be saved for future uses:
 **Get an interactive session with a GPU on Engaging (replacing the partition and GPU type as necessary):**
 
 ```bash
-salloc -N 1 -n 8 -p mit_normal_gpu -G l40s:1
+salloc -N 1 -n 8 --mem-per-cpu=4G -p mit_normal_gpu -G l40s:1
 ```
 
 *Note: For the 8B model, you will need a GPU with at least 40GB of memory. If you don't have a GPU, you can run this on a CPU, but it will be much slower.*
